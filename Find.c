@@ -5,7 +5,7 @@
 #include <ctype.h>
 
 #define SIZE 10
-#define MINES 15
+int MINES = 15;
 
 #define MINE -1
 #define COVERED '#'
@@ -15,7 +15,7 @@
 
 int game_map[SIZE][SIZE];
 char display_map[SIZE][SIZE];
-int game_status = 0; // 0: 진행중, 1: 승리, -1: 패배
+int game_status = 0;
 
 // ====================== 함수 선언 ======================
 void init_game();
@@ -27,9 +27,12 @@ void open_neighbors(int r, int c);
 void toggle_flag(int r, int c);
 void check_win();
 void get_input();
+void choose_difficulty();
 
 // ====================== 메인 ======================
 int main() {
+
+    choose_difficulty();
     init_game();
 
     printf("====================================\n");
@@ -220,4 +223,25 @@ void get_input() {
         toggle_flag(r, c);
     else
         printf("o 또는 f만 입력하세요.\n");
+}
+
+// ====================== 난이도 선택 ======================
+void choose_difficulty() {
+    int level;
+
+    printf("난이도를 선택하세요\n");
+    printf("1. 쉬움 (지뢰 10개)\n");
+    printf("2. 보통 (지뢰 15개)\n");
+    printf("3. 어려움 (지뢰 25개)\n");
+    printf("선택: ");
+
+    scanf("%d", &level);
+
+    if (level == 1) MINES = 10;
+    else if (level == 2) MINES = 15;
+    else if (level == 3) MINES = 25;
+    else {
+        printf("잘못된 입력, 기본값(15) 사용\n");
+        MINES = 15;
+    }
 }
